@@ -2,6 +2,11 @@
 
 分布式高并发订单管理系统
 
+[![Version](https://img.shields.io/badge/version-v0.1.0-blue.svg)](https://github.com/OLRainM/DOOS/releases)
+[![Go Version](https://img.shields.io/badge/go-1.25+-00ADD8.svg)](https://golang.org/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Status](https://img.shields.io/badge/status-Week%201%20Complete-success.svg)](PROJECT_STATUS.md)
+
 ## 项目简介
 
 DOOS 是一个模拟中大型电商平台核心交易链路的后端系统，采用 Go 语言开发，实现了：
