@@ -47,8 +47,8 @@ DOOS 是一个模拟中大型电商平台核心交易链路的后端系统，采
 ### 1. 克隆项目
 
 ```bash
-git clone <repository-url>
-cd doos
+git clone git@github.com:OLRainM/DOOS.git
+cd DOOS
 ```
 
 ### 2. 启动基础设施
@@ -67,8 +67,6 @@ docker-compose ps
 ```
 
 ### 3. 初始化数据库
-
-数据库表会在容器启动时自动创建。如需手动初始化：
 
 **Linux/Mac:**
 ```bash
@@ -97,12 +95,6 @@ go run cmd/order-service/main.go
 
 # 运行库存服务
 go run cmd/inventory-service/main.go
-
-# 运行消息中继服务
-go run cmd/message-relay/main.go
-
-# 运行 CDC 消费者
-go run cmd/cdc-consumer/main.go
 ```
 
 ### 6. 运行测试
@@ -113,11 +105,24 @@ go test ./...
 
 # 运行测试并显示覆盖率
 go test -cover ./...
-
-# 生成覆盖率报告
-go test -coverprofile=coverage.out ./...
-go tool cover -html=coverage.out
 ```
+
+### 服务访问地址
+
+启动成功后，可以访问以下服务：
+
+| 服务 | 地址 | 说明 |
+|------|------|------|
+| MySQL Shard 0 | localhost:3306 | 订单分库 0 |
+| MySQL Shard 1 | localhost:3307 | 订单分库 1 |
+| MySQL Inventory | localhost:3308 | 库存库 |
+| Redis | localhost:6379 | 缓存 |
+| Kafka | localhost:9092 | 消息队列 |
+| Etcd | localhost:2379 | 服务发现 |
+| Elasticsearch | http://localhost:9200 | 搜索引擎 |
+| Kibana | http://localhost:5601 | ES 可视化 |
+| Prometheus | http://localhost:9090 | 监控 |
+| Grafana | http://localhost:3000 | 监控可视化 (admin/admin) |
 
 ## 项目结构
 
@@ -206,6 +211,37 @@ kafka:
     - "localhost:9092"
 ```
 
+## 常用命令
+
+```bash
+# 编译所有服务
+make build
+
+# 运行测试
+make test
+
+# 查看测试覆盖率
+make test-cover
+
+# 启动 Docker 环境
+make docker-up
+
+# 停止 Docker 环境
+make docker-down
+
+# 初始化数据库
+make init-db
+
+# 格式化代码
+make fmt
+
+# 清理编译产物
+make clean
+
+# 查看所有命令
+make help
+```
+
 ## 监控与可观测性
 
 ### Prometheus
@@ -222,35 +258,6 @@ kafka:
 
 访问 http://localhost:5601 查看 Kibana
 
-## 开发指南
-
-### 添加新的 API
-
-1. 在 `api/proto/v1/` 定义 Protobuf
-2. 生成代码: `make proto`
-3. 实现 Handler
-4. 注册路由
-
-### 数据库迁移
-
-1. 在 `scripts/sql/` 添加 SQL 文件
-2. 运行迁移脚本
-
-### 添加测试
-
-```go
-func TestXxx(t *testing.T) {
-    // 测试代码
-}
-```
-
-## 性能指标
-
-- 订单创建 QPS: 10,000+
-- 订单查询 QPS: 50,000+
-- API 响应时间 (P99): < 200ms
-- 数据库连接池使用率: < 80%
-
 ## 常见问题
 
 ### Q: Docker 容器启动失败？
@@ -265,6 +272,21 @@ A: 确保 Docker 容器已启动，检查配置文件中的 DSN 是否正确。
 
 A: 等待 Kafka 完全启动（约 30 秒），检查 Kafka 健康状态。
 
+## 文档
+
+详细的技术文档和需求说明请查看：
+
+- [详细需求文档](docs/DOOS_Detailed_Requirements.md) - 完整的系统设计和技术规格
+
+## 开发路线图
+
+- [x] **Week 1**: 基础设施搭建 ✅
+- [ ] **Week 2**: 核心业务开发
+- [ ] **Week 3**: 数据同步与 CDC
+- [ ] **Week 4**: 前端开发
+- [ ] **Week 5**: 测试与优化
+- [ ] **Week 6**: 上线准备
+
 ## 贡献指南
 
 欢迎提交 Issue 和 Pull Request！
@@ -275,5 +297,5 @@ MIT License
 
 ## 联系方式
 
-- 项目负责人: [Your Name]
-- Email: [your.email@example.com]
+- GitHub: [@OLRainM](https://github.com/OLRainM)
+- 项目地址: https://github.com/OLRainM/DOOS

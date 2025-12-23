@@ -43,8 +43,7 @@ logs/
 data/
 *.db
 
-# Documentation (except README files)
-docs/
-QUICKSTART.md
-PROJECT_STATUS.md
-NEXT_STEPS.md
+# Temporary files
+*.tmp
+*.bak
+*~
