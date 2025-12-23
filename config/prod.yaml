@@ -1,0 +1,63 @@
+server:
+  grpc_port: 50051
+  http_port: 8081
+  read_timeout: 30s
+  write_timeout: 30s
+
+database:
+  shards:
+    - dsn: "${DB_SHARD_0_DSN}"
+      max_open_conns: 200
+      max_idle_conns: 50
+      max_lifetime: 1h
+      max_idle_time: 10m
+    - dsn: "${DB_SHARD_1_DSN}"
+      max_open_conns: 200
+      max_idle_conns: 50
+      max_lifetime: 1h
+      max_idle_time: 10m
+
+inventory_db:
+  dsn: "${DB_INVENTORY_DSN}"
+  max_open_conns: 200
+  max_idle_conns: 50
+  max_lifetime: 1h
+  max_idle_time: 10m
+
+redis:
+  addr: "${REDIS_ADDR}"
+  password: "${REDIS_PASSWORD}"
+  db: 0
+  pool_size: 200
+  min_idle_conns: 20
+  dial_timeout: 5s
+  read_timeout: 3s
+  write_timeout: 3s
+
+kafka:
+  brokers:
+    - "${KAFKA_BROKER_1}"
+    - "${KAFKA_BROKER_2}"
+    - "${KAFKA_BROKER_3}"
+  topics:
+    stock_deduct: "doos.stock.deduct"
+    order_status: "doos.order.status"
+  consumer_group: "doos-consumer-group"
+  session_timeout: 10s
+  heartbeat_interval: 3s
+
+etcd:
+  endpoints:
+    - "${ETCD_ENDPOINT_1}"
+    - "${ETCD_ENDPOINT_2}"
+    - "${ETCD_ENDPOINT_3}"
+  dial_timeout: 5s
+  request_timeout: 3s
+
+snowflake:
+  machine_id: "${MACHINE_ID}"
+
+log:
+  level: "info"
+  format: "json"
+  output: "stdout"

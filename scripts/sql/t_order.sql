@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS `t_order` (
+  `id` BIGINT UNSIGNED NOT NULL COMMENT '全局唯一订单ID (Snowflake)',
+  `user_id` BIGINT UNSIGNED NOT NULL COMMENT '用户ID (分库键)',
+  `order_no` VARCHAR(32) NOT NULL COMMENT '订单号 (业务层生成，便于展示)',
+  `total_amount` DECIMAL(10, 2) NOT NULL COMMENT '订单总金额',
+  `discount_amount` DECIMAL(10, 2) DEFAULT 0.00 COMMENT '优惠金额',
+  `actual_amount` DECIMAL(10, 2) NOT NULL COMMENT '实付金额',
+  `status` TINYINT NOT NULL DEFAULT 0 COMMENT '订单状态: 0-待支付, 1-已支付, 2-已发货, 3-已完成, 4-已取消',
+  `payment_method` VARCHAR(20) COMMENT '支付方式: alipay, wechat, credit_card',
+  `shipping_address` VARCHAR(500) COMMENT '收货地址 (JSON格式)',
+  `remark` VARCHAR(200) COMMENT '订单备注',
+  `paid_at` TIMESTAMP NULL COMMENT '支付时间',
+  `shipped_at` TIMESTAMP NULL COMMENT '发货时间',
+  `completed_at` TIMESTAMP NULL COMMENT '完成时间',
+  `cancelled_at` TIMESTAMP NULL COMMENT '取消时间',
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_order_no` (`order_no`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_status_created` (`status`, `created_at`),
+  KEY `idx_created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单主表';
