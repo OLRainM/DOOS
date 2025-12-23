@@ -12,6 +12,7 @@ dist/
 
 # Output of the go coverage tool
 *.out
+coverage.html
 
 # Dependency directories
 vendor/
@@ -41,3 +42,9 @@ logs/
 # Data
 data/
 *.db
+
+# Documentation (except README files)
+docs/
+QUICKSTART.md
+PROJECT_STATUS.md
+NEXT_STEPS.md
